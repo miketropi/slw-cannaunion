@@ -1,1 +1,1 @@
-(()=>{"use strict";window})();
+(()=>{"use strict";window,jQuery,console.log(PHP_DATA)})();

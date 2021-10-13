@@ -24,19 +24,43 @@
   define('SLWC_URI', plugin_dir_url(__FILE__));
 }
 
-{
-  require_once(SLWC_DIR . '/vendor/autoload.php');
+/**
+ * Composer
+ */
+require_once(SLWC_DIR . '/vendor/autoload.php');
 
-  /**
-   * Includes 
-   */
-  require(SLWC_DIR . '/inc/static.php');
-  require(SLWC_DIR . '/inc/helpers.php');
-  require(SLWC_DIR . '/inc/hooks.php');
-  require(SLWC_DIR . '/inc/ajax.php');
+/**
+ * Init
+ */
+function initiate_slwc_plugin() {
+  if(!class_exists('SlwMain')) {
+    function slwc_admin_notice_requirement() {
+      ?>
+      <div class="notice notice-warning is-dismissible">
+        <p><?php _e( 'Install "Stock Locations for WooCommerce" first before use "Stock Locations Woo for Cannaunion", Thank you!', 'slwc' ); ?></p>
+      </div>
+      <?php
+    }
+    add_action( 'admin_notices', 'slwc_admin_notice_requirement' );
+    return;
+  } else {
+    /**
+     * Includes 
+     */
+    require(SLWC_DIR . '/inc/static.php');
+    require(SLWC_DIR . '/inc/helpers.php');
+    require(SLWC_DIR . '/inc/hooks.php');
+    require(SLWC_DIR . '/inc/ajax.php');
+    require(SLWC_DIR . '/inc/options.php');
+  }
 }
 
+add_action( 'plugins_loaded', 'initiate_slwc_plugin' );
+
 {
+  /**
+   * Boot
+   */
   function slwc_boot() {
     \Carbon_Fields\Carbon_Fields::boot();
   }

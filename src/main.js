@@ -1,11 +1,15 @@
 /**
  * Main Javscript 
  */
-
+import * as Helpers from './helpers';
 import './main.scss';
 
-;((w) => {
+;((w, $) => {
   'use strict';
 
-  
-})(window)
+  const _init = () => {
+    console.log(PHP_DATA);
+  }
+
+  _init();
+})(window, jQuery) 
