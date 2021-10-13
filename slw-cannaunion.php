@@ -25,6 +25,8 @@
 }
 
 {
+  require_once(SLWC_DIR . '/vendor/autoload.php');
+
   /**
    * Includes 
    */
@@ -32,4 +34,12 @@
   require(SLWC_DIR . '/inc/helpers.php');
   require(SLWC_DIR . '/inc/hooks.php');
   require(SLWC_DIR . '/inc/ajax.php');
+}
+
+{
+  function slwc_boot() {
+    \Carbon_Fields\Carbon_Fields::boot();
+  }
+  
+  add_action('after_setup_theme', 'slwc_boot');
 }
