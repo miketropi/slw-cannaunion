@@ -58,7 +58,7 @@ function slwc_get_all_term_product_locations() {
         'name' => $term->name,
         'slug' => $term->slug,
         'country_code' => carbon_get_term_meta($term->term_id, 'slwc_country_code'),
-        'only_local' => carbon_get_term_meta($term->term_id, 'slwc_only_local'),
+        'access_store' => carbon_get_term_meta($term->term_id, 'slwc_store_access'),
       ];
     }, $terms);
   } else {
