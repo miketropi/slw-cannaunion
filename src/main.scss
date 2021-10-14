@@ -1,0 +1,51 @@
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+}
+
+.slwc-field-disable-css {
+  opacity: .5;
+  pointer-events: none;
+  cursor: default;
+}
+
+.slwc-text {
+  border-bottom: solid 1px;
+  margin: 10px 0;
+  padding: 0 0 10px;
+  font-size: 14px;
+  align-items: center;
+  display: flex;
+
+  svg {
+    width: 18px;
+    height: auto;
+    margin-right: 6px;
+  }
+}
+
+.slwc-text + select.slwc-custom {
+  display: none !important;
+}
+
+table.shop_table {
+
+  .product-name {
+
+    > a {
+      display: block;
+    }
+
+    label.slw_cart_item_stock_location_label {
+      margin-right: 10px;
+    }
+
+    select.slw_item_stock_location {
+      display: inline !important;
+    }
+  }
+}

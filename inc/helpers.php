@@ -1,4 +1,5 @@
 <?php 
+use SLW\SRC\Helpers\SlwStockAllocationHelper;
 /**
  * Helpers 
  */
@@ -72,4 +73,5 @@ add_action('init', function() {
   // print_r(slwc_get_location_by_ip(slwc_get_client_ip()));
   // print_r(slwc_get_all_term_product_locations());
   // echo '</pre>';
-});
+  // var_dump(SlwStockAllocationHelper::getProductStockLocations(62));
+}, 999);
