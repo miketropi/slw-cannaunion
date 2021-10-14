@@ -31,7 +31,7 @@ import './main.scss';
   }
 
   const validateQtyAfterLocalSelectUpdate = (select) => {
-
+    
   }
 
   const storeSelected = () => {
