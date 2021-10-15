@@ -2,11 +2,11 @@
  * Main Javscript 
  */
 import * as Helpers from './helpers';
+import './checkout';
 import './main.scss';
 
 ;((w, $) => {
   'use strict';
-  console.log(PHP_DATA);
   w.SLW_Store = null;
   const AllStore = PHP_DATA.product_locations;
   const {countryCode, country, timezone} = PHP_DATA.user_location;
