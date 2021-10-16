@@ -54,19 +54,21 @@
     let countryField2 = document.querySelector('form.woocommerce-checkout select[name="shipping_country"]');
     if(!countryField) return;
 
-    shipDifferentAddressCheckbox.addEventListener('change', e => {
-      if(e.target.checked == true) {
-        // custom shipping address
-        resetCountryField($(countryField)); // reset
-        setCountryFieldHandle($(countryField2)); // apply validate Country
-      } else {
-        // billing address
-        if(countryField2) {
-          resetCountryField($(countryField2)); // reset
+    if(shipDifferentAddressCheckbox) {
+      shipDifferentAddressCheckbox.addEventListener('change', e => {
+        if(e.target.checked == true) {
+          // custom shipping address
+          resetCountryField($(countryField)); // reset
+          setCountryFieldHandle($(countryField2)); // apply validate Country
+        } else {
+          // billing address
+          if(countryField2) {
+            resetCountryField($(countryField2)); // reset
+          }
+          setCountryFieldHandle($(countryField)); // apply validate Country
         }
-        setCountryFieldHandle($(countryField)); // apply validate Country
-      }
-    })
+      })
+    }
 
     setCountryFieldHandle($(countryField));
   }
