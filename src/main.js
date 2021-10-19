@@ -100,7 +100,10 @@ import './main.scss';
 
     $(document.body).on('click', 'a.slwc-custom-button-ajax-add-to-cart-simple-product', function(e) {
       e.preventDefault();
+      const $button = $(this);
       const product_id = parseInt($(this).data('product-id'));
+      $button.addClass('loading');
+
       $.ajax({
         type: 'POST',
         url: '?wc-ajax=add_to_cart',
@@ -112,6 +115,9 @@ import './main.scss';
         },
         success() {
           $(document.body).trigger('wc_fragment_refresh');
+          setTimeout(() => {
+            $button.removeClass('loading');
+          }, 1500)
         },
         error(e) {
           console.log(e)

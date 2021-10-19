@@ -8,9 +8,9 @@
 }
 
 .slwc-field-disable-css {
-  opacity: .5;
-  pointer-events: none;
-  cursor: default;
+  opacity: .5 !important;
+  pointer-events: none !important;
+  cursor: default !important;
 }
 
 .slwc-text {
@@ -59,4 +59,16 @@ body.single-product {
  
 .slwc-hidden {
   display: none !important;
+}
+
+.product-unavailable-tag {
+  font-size: 11px;
+  font-weight: 500;
+  display: inline-block;
+  color: white;
+  line-height: normal;
+  padding: 2px 4px;
+  background: red;
+  border-radius: 4px;
+  margin-bottom: 4px;
 }
