@@ -49,3 +49,14 @@ table.shop_table {
     }
   }
 }
+
+body.single-product {
+
+  .stock.in-stock {
+    display: none;
+  }
+}
+ 
+.slwc-hidden {
+  display: none !important;
+}

@@ -23,11 +23,14 @@ function slwc_country_code_options() {
  */
 function slwc_get_location_by_ip($ip = '') {
   $endpoint = 'http://ip-api.com/php/';
-  $data = unserialize(file_get_contents($endpoint . $ip));
+  $data = @unserialize(file_get_contents($endpoint . $ip));
   return $data['status'] === 'success' ? $data : false;
 }
 
 function slwc_get_client_ip() {
+  return '100.42.240.4'; # canada
+  // return  '14.224.130.20'; # vn
+
   $ipaddress = '';
   if (isset($_SERVER['HTTP_CLIENT_IP']))
     $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
@@ -120,11 +123,57 @@ function slwc_qty_validation($product_id = 0, $qty = 1, $stock_location = 0, $re
   return ($qty > $qty_totally_location) ? false : true;
 }
 
+function slwc_check_client_location_in_shop_location() {
+  $user_location = slwc_get_location_by_ip(slwc_get_client_ip());
+  $locations = slwc_get_all_term_product_locations();
+
+  $key = array_search($user_location['countryCode'], array_column($locations, 'country_code'));
+  if($key === false) {
+    return false;
+  } else {
+    return $locations[$key];
+  }
+}
+
+function slwc_check_product_available($product_ip) {
+  $client_location = slwc_check_client_location_in_shop_location();
+  $product_location = SlwStockAllocationHelper::getProductStockLocations($product_ip);
+  if($client_location) {
+    if(!$product_location) {
+      return false;
+    }
+
+    if(in_array($client_location['term_id'], array_keys($product_location))) {
+      return true;
+    } else {
+      return false;
+    }
+  } else {
+    if(count($product_location) == 0) return false;
+
+    foreach($product_location as $index => $term) {
+      $store_access = carbon_get_term_meta($term->term_id, 'slwc_store_access');
+      if($store_access == 'global') {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
 add_action('init', function() {
   // echo '<pre>';
   // slwc_country_code_options();
   // print_r(slwc_get_location_by_ip(slwc_get_client_ip()));
   // print_r(slwc_get_all_term_product_locations());
   // echo '</pre>';
-  // var_dump(SlwStockAllocationHelper::getProductStockLocations(62));
+
+  // $location = SlwStockAllocationHelper::getProductStockLocations(60);
+  // $l_ids = array_map(function($l) {
+  //   return $l->term_id;
+  // }, $location);
+  // print_r(array_keys($location));
+
+  // slwc_check_client_location_in_shop_location();
 }, 999);
