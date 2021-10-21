@@ -22,8 +22,10 @@ function slwc_country_code_options() {
  * Get location by IP
  */
 function slwc_get_location_by_ip($ip = '') {
-  $endpoint = 'http://ip-api.com/php/';
-  $data = @unserialize(file_get_contents($endpoint . $ip));
+  // $endpoint = 'http://ip-api.com/php/';
+  $api_mockup = "https://pro.ip-api.com/php/{YOUR_API}?key=KNUyyUdvyg4pq49";
+  $endpoint = str_replace('{YOUR_API}', $ip, $api_mockup);
+  $data = @unserialize(file_get_contents($endpoint));
   return $data['status'] === 'success' ? $data : false;
 }
 
