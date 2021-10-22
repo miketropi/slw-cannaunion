@@ -173,6 +173,7 @@ add_action('init', function() {
   // echo '</pre>';
 
   // $location = SlwStockAllocationHelper::getProductStockLocations(60);
+  // echo '<pre>'; print_r($location); echo '</pre>';
   // $l_ids = array_map(function($l) {
   //   return $l->term_id;
   // }, $location);

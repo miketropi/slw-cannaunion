@@ -100,6 +100,10 @@ function slwc_woo_update_cart_validation($true, $cart_item_key, $values, $quanti
 
 add_filter('woocommerce_update_cart_validation', 'slwc_woo_update_cart_validation', 99, 4);
 
+/**
+ * Add class stock in location 
+ * 
+ */
 function slwc_product_class_stock_location($post_classes, $class, $product_id) {
   $post_type = get_post_type($product_id); //'product';
   if($post_type !== 'product') return $post_classes;
@@ -125,6 +129,10 @@ function slwc_product_class_stock_location($post_classes, $class, $product_id) {
 
 add_filter('post_class', 'slwc_product_class_stock_location', 20, 3);
 
+/**
+ * Add class product available 
+ * 
+ */
 function slwc_product_class_available_by_location($post_classes, $class, $product_id) {
   $post_type = get_post_type($product_id); //'product';
   if($post_type !== 'product') return $post_classes;
@@ -139,3 +147,29 @@ function slwc_product_class_available_by_location($post_classes, $class, $produc
 }
 
 add_filter('post_class', 'slwc_product_class_available_by_location', 22, 3);
+
+/**
+ * Add class out of stock
+ * 
+ */
+function slwc_product_class_outofstock($post_classes, $class, $product_id) {
+  global $product;
+  $post_type = get_post_type($product_id); //'product';
+  if($post_type !== 'product') return $post_classes;
+
+  if($product->is_type('variable')) {
+    return $post_classes;
+  }
+
+  $stock_location = SlwStockAllocationHelper::getProductStockLocations($product_id);
+  if($stock_location && count($stock_location)) {
+    foreach($stock_location as $term_id => $_s) {
+      // print_r($_s->quantity);
+      array_push($post_classes, '__slwc-qty-' . $term_id .'_' . $_s->quantity);
+    }
+  }
+
+  return $post_classes;
+}
+
+add_filter('post_class', 'slwc_product_class_outofstock', 24, 3);
