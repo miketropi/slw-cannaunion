@@ -127,12 +127,12 @@ import './main.scss';
   }
 
   const outofstockHandle = () => {
-    $('.product.type-product.outofstock').each(function() {
+    $('.product.type-product').each(function() {
       if($(this).find('.product-unavailable-tag').length > 0) return;
       if($(this).hasClass(`__slwc-qty-${w.SLW_Store.term_id}_0`)) {
         $(this).append(`<small class="product-unavailable-tag">Out of stock</small>`);
       }
-    })
+    }) 
   }
 
   const _Init = () => {
