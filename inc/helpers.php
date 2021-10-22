@@ -48,7 +48,7 @@ function slwc_get_client_ip() {
     $ipaddress = $_SERVER['REMOTE_ADDR'];
   else
     $ipaddress = 'UNKNOWN';
-  return $ipaddress;
+  return explode(',', $ipaddress)[0];
 }
 
 function slwc_get_all_term_product_locations() {
@@ -165,6 +165,7 @@ function slwc_check_product_available($product_ip) {
 }
 
 add_action('init', function() {
+  // echo slwc_get_client_ip();
   // echo '<pre>';
   // slwc_country_code_options();
   // print_r(slwc_get_location_by_ip(slwc_get_client_ip()));
