@@ -84,3 +84,8 @@ body.single-product {
     text-decoration: underline;
   }
 }
+
+.__non-select {
+  pointer-events: none;
+  opacity: .6;
+}

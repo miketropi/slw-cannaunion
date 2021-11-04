@@ -14,7 +14,10 @@
 
     // Disable field if store is private
     if(w.SLW_Store.access_store == 'private') {
-      $countryField.prop('disabled', true);
+      // $countryField.prop('disabled', true);
+      $countryField
+        .next('.select2')
+        .addClass('__non-select');
     } else {
       const privateStores = PHP_DATA?.product_locations?.filter(store => {
         return store.access_store == 'private';
@@ -32,7 +35,10 @@
 
   const resetCountryField = ($countryField) => {
     if(w.SLW_Store.access_store == 'private') {
-      $countryField.prop('disabled', false);
+      // $countryField.prop('disabled', false);
+      $countryField
+        .next('.select2')
+        .removeClass('__non-select');
     } else {
       const privateStores = PHP_DATA?.product_locations?.filter(store => {
         return store.access_store == 'private';
