@@ -6,6 +6,12 @@ use Carbon_Fields\Field;
  */
 
 function slwc_location_term_meta() {
+  Container::make('theme_options', __('SLWC Options'))
+    ->set_page_parent('themes.php')
+    ->add_fields([
+      Field::make('textarea', 'slwc_message_warning_checkout_page', __('Message warning checkout page', 'slwc')),
+    ]);
+
   Container::make('term_meta', __('countryCode', 'slwc'))
     ->where('term_taxonomy', '=', 'location')
     ->add_fields([

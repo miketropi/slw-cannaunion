@@ -79,11 +79,47 @@
     setCountryFieldHandle($(countryField));
   }
 
+  const warrningDialogUpdateLocationPrivate = () => {
+    let $shipDifferentAddressCheckbox = $('#ship-to-different-address-checkbox');
+    let $countryField = $('form.woocommerce-checkout select[name="billing_country"]');
+    let $countryField2 = $('form.woocommerce-checkout select[name="shipping_country"]');
+    if(!$countryField) return;
+
+    const alertMessage = (countryCode) => {
+      if(countryCode === w.SLW_Store.country_code) return;
+
+      $.alert({
+        title: '⚠️ Warning.',
+        content: PHP_DATA.slwc_message_warning_checkout_page, 
+        useBootstrap: false,
+        type: 'red',
+      })
+    }
+
+    if(w.SLW_Store.country_code) {
+      $countryField.val(w.SLW_Store.country_code).trigger('change');
+    }
+
+    if(w.SLW_Store.access_store !== 'private') return;
+
+    $countryField.on('change', function(e) {
+      if($shipDifferentAddressCheckbox.prop('checked') == true) return;
+      alertMessage(this.value);
+    })
+
+    $countryField2.on('change', function(e) {
+      alertMessage(this.value);
+    })
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     //
   })
 
   w.addEventListener('load', () => {
-    setDefaultCountryField();
+    // setDefaultCountryField();
+
+    // warrning message if location private 
+    warrningDialogUpdateLocationPrivate();
   })
 })(window, jQuery) 
