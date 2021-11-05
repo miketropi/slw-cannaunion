@@ -31,7 +31,7 @@ function slwc_get_location_by_ip($ip = '') {
 
 function slwc_get_client_ip() {
   // return '100.42.240.4'; # canada
-  return  '14.224.130.20'; # vn
+  // return  '14.224.130.20'; # vn
 
   $ipaddress = '';
   if (isset($_SERVER['HTTP_CLIENT_IP']))
