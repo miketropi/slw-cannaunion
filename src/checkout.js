@@ -1,6 +1,6 @@
 /**
- * Checkout 
- * 
+ * Checkout
+ *
  */
 
 ;((w, $) => {
@@ -79,37 +79,57 @@
     setCountryFieldHandle($(countryField));
   }
 
+  var disableBtnCheckout;
   const warrningDialogUpdateLocationPrivate = () => {
     let $shipDifferentAddressCheckbox = $('#ship-to-different-address-checkbox');
     let $countryField = $('form.woocommerce-checkout select[name="billing_country"]');
     let $countryField2 = $('form.woocommerce-checkout select[name="shipping_country"]');
+    let $formCheckout = $('form.woocommerce-checkout');
+    //console.log($formCheckout);
     if(!$countryField) return;
-
     const alertMessage = (countryCode) => {
-      if(countryCode === w.SLW_Store.country_code) return;
-
+      if(PHP_DATA.site_code === 'uk' && countryCode == 'GB') return;
+      if(PHP_DATA.site_code === 'eu' && countryCode != 'GB') return;
       $.alert({
         title: '⚠️ Warning.',
-        content: PHP_DATA.slwc_message_warning_checkout_page, 
+        content: PHP_DATA.slwc_message_warning_checkout_page,
         useBootstrap: false,
         type: 'red',
-      })
+      });
+      $formCheckout.find('#place_order').prop('disabled', true);
+      disableBtnCheckout = setInterval(disableBN, 1000);
     }
 
-    if(w.SLW_Store.country_code) {
-      $countryField.val(w.SLW_Store.country_code).trigger('change');
-    }
+    // if(w.SLW_Store.country_code) {
+    //   $countryField.val(w.SLW_Store.country_code).trigger('change');
+    // }
 
-    if(w.SLW_Store.access_store !== 'private') return;
+    //if(w.SLW_Store.access_store !== 'private') return;
 
     $countryField.on('change', function(e) {
-      if($shipDifferentAddressCheckbox.prop('checked') == true) return;
-      alertMessage(this.value);
+      //if($shipDifferentAddressCheckbox.prop('checked') == true) return;
+      //alertMessage(this.value);
+      $formCheckout.find('#place_order').prop('disabled', false);
     })
 
     $countryField2.on('change', function(e) {
+      $formCheckout.find('#place_order').prop('disabled', false);
       alertMessage(this.value);
-    })
+    });
+
+    $formCheckout.submit(function(){
+      if($shipDifferentAddressCheckbox.prop('checked') == true) return;
+      alertMessage($countryField.val());
+    });
+
+    function disableBN() {
+      if(!$(document).find('.blockOverlay').length){
+        $formCheckout.find('#place_order').prop('disabled', true);
+        clearInterval(disableBtnCheckout);
+      }
+    }
+
+
   }
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -119,7 +139,7 @@
   w.addEventListener('load', () => {
     // setDefaultCountryField();
 
-    // warrning message if location private 
+    // warrning message if location private
     warrningDialogUpdateLocationPrivate();
   })
-})(window, jQuery) 
+})(window, jQuery)

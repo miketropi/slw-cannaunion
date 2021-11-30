@@ -1,7 +1,7 @@
-<?php 
+<?php
 use SLW\SRC\Helpers\SlwStockAllocationHelper;
 /**
- * Helpers 
+ * Helpers
  */
 
 function slwc_country_code_options() {
@@ -79,7 +79,7 @@ function slwc_find_item_in_cart($product_id = 0) {
 
   # Product type variation
   $key = array_search($product_id, array_column($cart_items, 'variation_id'));
-  
+
   if($key !== false) {
     return $cart_items[array_keys($cart_items)[$key]];
   }
@@ -95,12 +95,12 @@ function slwc_find_item_in_cart($product_id = 0) {
 
 /**
  * Qty validate before add_to_cart or update cart
- * 
+ *
  * @param Int $product_id
  * @param Int $qty
  * @param Int $stock_location
  * @param Boolean $replace_qty
- * 
+ *
  * @return Boolean true/false
  */
 function slwc_qty_validation($product_id = 0, $qty = 1, $stock_location = 0, $replace_qty = false) {
@@ -111,13 +111,13 @@ function slwc_qty_validation($product_id = 0, $qty = 1, $stock_location = 0, $re
 
   # Store selected
   $location_selected = $product_stock[$stock_location];
-  
+
   # Totally qty of store
   $qty_totally_location = (int) $location_selected->quantity;
 
-  # Product exist in cart 
+  # Product exist in cart
   $produt_in_cart = slwc_find_item_in_cart($product_id);
-  
+
   if($produt_in_cart && $replace_qty == false) {
     $qty += (int) $produt_in_cart['quantity'];
   }
@@ -181,3 +181,24 @@ add_action('init', function() {
 
   // slwc_check_client_location_in_shop_location();
 }, 999);
+
+//get site code
+function get_site_code(){
+  $HTTP_HOST = $_SERVER['HTTP_HOST'];
+  $https = $_SERVER['HTTPS'] == 'on' ? 'https://':'http://';
+  $host_name = $https.$HTTP_HOST.'/';
+  $site_url = site_url();
+  return str_replace($host_name,'',$site_url);
+}
+
+function cannaunion_validate_countries( $fields, $errors ){
+    if (isset($fields['billing_country']) && $fields['billing_country'] && !$fields['ship_to_different_address']){
+        $SITE_CODE = get_site_code();
+        if($SITE_CODE == 'uk' && $fields['billing_country'] != "GB"){
+          $errors->add( 'validation', carbon_get_theme_option('slwc_message_warning_checkout_page'));
+        }
+        if($SITE_CODE == 'eu' && $fields['billing_country'] == "GB"){
+          $errors->add( 'validation', carbon_get_theme_option('slwc_message_warning_checkout_page'));
+        }
+    }
+}
