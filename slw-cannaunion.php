@@ -49,7 +49,7 @@ function initiate_slwc_plugin() {
     require(SLWC_DIR . '/inc/options.php');
 
     //Hook validation checkout woo
-    add_filter( 'woocommerce_checkout_fields', 'cannaunion_validate_countries' , 10 , 2 );
+    add_action( 'woocommerce_after_checkout_validation', 'cannaunion_validate_countries', 10, 2);
 
   }else {
 
