@@ -5,7 +5,6 @@
 
 ;((w, $) => {
   'use strict';
-
   const setCountryFieldHandle = ($countryField) => {
     // Change to country by Client IP
     if(w.SLW_Store.country_code) {
